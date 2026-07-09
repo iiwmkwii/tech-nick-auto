@@ -255,8 +255,8 @@
   z-index: 9999;
   display: grid;
   place-items: center;
-  padding: 24px;
-  background: rgba(0, 0, 0, 0.68);
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.72);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.45s ease, visibility 0.45s ease;
@@ -269,14 +269,15 @@
 
 .promo-popup {
   position: relative;
-  width: min(875px, 92vw);
-  max-height: 92vh;
-  background: #1c1c1c;
-  border: 1px solid rgba(255, 106, 19, 0.65);
+  width: fit-content;
+  max-width: 94vw;
+  max-height: 90vh;
+  background: transparent;
+  border: 1px solid rgba(255, 106, 19, 0.75);
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
   overflow: hidden;
 
-  transform: translateY(32px) scale(0.94);
+  transform: translateY(28px) scale(0.94);
   opacity: 0;
   transition: transform 0.55s ease, opacity 0.55s ease;
 }
@@ -293,9 +294,9 @@
 
 .promo-image {
   display: block;
-  width: 100%;
-  height: auto;
-  max-height: 92vh;
+  height: min(88vh, 860px);
+  width: auto;
+  max-width: 94vw;
   object-fit: contain;
 }
 
@@ -305,14 +306,15 @@
   right: 12px;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   background: rgba(19, 19, 19, 0.92);
   color: #f2ede2;
-  font-size: 32px;
+  font-family: Arial, sans-serif;
+  font-size: 24px;
   line-height: 1;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
 }
 
 .promo-close:hover {
@@ -322,20 +324,27 @@
 
 @media (max-width: 768px) {
   .promo-overlay {
-    padding: 14px;
+    padding: 12px;
   }
 
   .promo-popup {
+    max-width: 96vw;
+    max-height: 86vh;
+  }
+
+  .promo-image {
     width: min(96vw, 520px);
-    max-height: 88vh;
+    height: auto;
+    max-height: 86vh;
   }
 
   .promo-close {
     width: 40px;
     height: 40px;
-    font-size: 28px;
+    font-size: 22px;
   }
-}</style>
+}
+</style>
 </head>
 <body>
 <header>
@@ -581,7 +590,7 @@
 <!-- Promo Popup -->
 <div class="promo-overlay" id="promoOverlay">
   <div class="promo-popup" id="promoPopup">
-    <button class="promo-close" id="promoClose" aria-label="Close promotion">×</button>
+    <button class="promo-close" id="promoClose" aria-label="Close promotion">X</button>
 
     <a href="tel:+19512399663" class="promo-link" aria-label="Call Tech Nick Mobile Auto Service">
       <img
