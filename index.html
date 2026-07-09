@@ -249,47 +249,68 @@
   }
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{transition:none!important;}}
 /* Promo popup */
-.promo-popup {
+.promo-overlay {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
-  width: 360px;
-  max-width: calc(100vw - 32px);
-  background: #1c1c1c;
-  border: 1px solid rgba(255, 106, 19, 0.55);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+  inset: 0;
   z-index: 9999;
-  overflow: hidden;
-  transform: translateY(140%);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.68);
   opacity: 0;
   visibility: hidden;
-  transition: transform 0.55s ease, opacity 0.55s ease, visibility 0.55s ease;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
 }
 
-.promo-popup.show {
-  transform: translateY(0);
+.promo-overlay.show {
   opacity: 1;
   visibility: visible;
+}
+
+.promo-popup {
+  position: relative;
+  width: min(875px, 92vw);
+  max-height: 92vh;
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 106, 19, 0.65);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+
+  transform: translateY(32px) scale(0.94);
+  opacity: 0;
+  transition: transform 0.55s ease, opacity 0.55s ease;
+}
+
+.promo-overlay.show .promo-popup {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.promo-link {
+  display: block;
+  cursor: pointer;
 }
 
 .promo-image {
   display: block;
   width: 100%;
   height: auto;
+  max-height: 92vh;
+  object-fit: contain;
 }
 
 .promo-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(19, 19, 19, 0.88);
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(19, 19, 19, 0.92);
   color: #f2ede2;
-  font-size: 28px;
+  font-size: 32px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   z-index: 2;
 }
@@ -299,37 +320,22 @@
   color: #111;
 }
 
-.promo-phone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 58px;
-  padding: 14px 18px;
-  background: #ff6a13;
-  color: #111;
-  text-decoration: none;
-  font-weight: 900;
-  font-size: 18px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.promo-phone:hover {
-  filter: brightness(1.08);
-}
-
 @media (max-width: 768px) {
-  .promo-popup {
-    right: 12px;
-    bottom: 88px;
-    width: calc(100vw - 24px);
+  .promo-overlay {
+    padding: 14px;
   }
 
-  .promo-phone {
-    font-size: 16px;
+  .promo-popup {
+    width: min(96vw, 520px);
+    max-height: 88vh;
   }
-}
-</style>
+
+  .promo-close {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+  }
+}</style>
 </head>
 <body>
 <header>
@@ -572,39 +578,48 @@
   });
 </script>
 <!-- Promo Popup -->
-<div class="promo-popup" id="promoPopup">
-  <button class="promo-close" id="promoClose" aria-label="Close promotion">×</button>
+<!-- Promo Popup -->
+<div class="promo-overlay" id="promoOverlay">
+  <div class="promo-popup" id="promoPopup">
+    <button class="promo-close" id="promoClose" aria-label="Close promotion">×</button>
 
-  <img
-    src="images/summer-maintenance-special.png"
-    alt="Summer Maintenance Special - Mobile Oil Change from $85 and Mobile Maintenance Service from $145"
-    class="promo-image"
-  >
-
-  <a href="tel:+19512399663" class="promo-phone">
-    Call/Text (951) 239-9663
-  </a>
+    <a href="tel:+19512399663" class="promo-link" aria-label="Call Tech Nick Mobile Auto Service">
+      <img
+        src="images/summer-maintenance-special.png"
+        alt="Summer Maintenance Special - Mobile Oil Change from $85 and Mobile Maintenance Service from $145. Call or text (951) 239-9663."
+        class="promo-image"
+      >
+    </a>
+  </div>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const popup = document.getElementById("promoPopup");
+    const overlay = document.getElementById("promoOverlay");
     const closeBtn = document.getElementById("promoClose");
 
-    if (!popup || !closeBtn) return;
+    if (!overlay || !closeBtn) return;
 
     const wasClosed = localStorage.getItem("techNickPromoClosed");
 
     if (!wasClosed) {
       setTimeout(function () {
-        popup.classList.add("show");
+        overlay.classList.add("show");
       }, 3000);
     }
 
-    closeBtn.addEventListener("click", function () {
-      popup.classList.remove("show");
+    closeBtn.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      overlay.classList.remove("show");
       localStorage.setItem("techNickPromoClosed", "true");
     });
+
+    overlay.addEventListener("click", function (event) {
+      if (event.target === overlay) {
+        overlay.classList.remove("show");
+        localStorage.setItem("techNickPromoClosed", "true");
+      }
+    });
   });
-</script>
-</body>
+</script></body>
 </html>
