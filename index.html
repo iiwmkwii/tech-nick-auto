@@ -344,6 +344,19 @@
     font-size: 22px;
   }
 }
+
+/* Photo marquee */
+.marquee-section{padding:36px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel);}
+.marquee-mask{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+.marquee-track{display:flex;align-items:stretch;gap:16px;width:max-content;animation:marquee-scroll 65s linear infinite;}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-slide{flex:0 0 auto;width:260px;aspect-ratio:4/3;border-radius:3px;overflow:hidden;background:var(--asphalt);border:1px solid var(--line);}
+.marquee-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.marquee-slide.is-placeholder{border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--steel-dim);font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:10px;}
+.marquee-slide.is-placeholder svg{width:26px;height:26px;color:var(--steel-dim);}
+@keyframes marquee-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media(max-width:650px){.marquee-slide{width:180px;}.marquee-track{animation-duration:42s;}}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none;overflow-x:auto;}}
 </style>
 </head>
 <body>
@@ -358,7 +371,7 @@
       <span>TECH NICK<small>MOBILE AUTO SERVICE</small></span>
     </a>
     <nav class="links" aria-label="Main navigation">
-      <a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#reviews">Reviews</a><a href="#area">Area</a><a href="#contact">Contact</a>
+      <a href="#gallery">Gallery</a><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#reviews">Reviews</a><a href="#area">Area</a><a href="#contact">Contact</a>
     </nav>
     <div class="nav-actions">
       <a href="sms:+19512399663?&body=Hi%20Nick%2C%20I%20need%20mobile%20mechanic%20service.%20Vehicle%3A%20%5Byear%20make%20model%5D.%20Issue%3A%20%5Bdescribe%5D.%20City%3A%20%5Bcity%5D." class="mini-btn text-btn">Text</a>
@@ -396,6 +409,12 @@
           <a href="tel:+19512399663" class="phone-big">(951) 239-9663</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="marquee-section" id="gallery">
+    <div class="marquee-mask">
+      <div class="marquee-track" id="marqueeTrack"></div>
     </div>
   </section>
 
@@ -490,6 +509,7 @@
       </div>
     </div>
   </section>
+
 <section id="how">
     <div class="wrap">
       <div class="section-head"><div class="eyebrow">Getting help</div><h2>How it works</h2></div>
@@ -569,6 +589,71 @@
 </footer>
 <div class="sticky-call"><div class="sticky-grid"><a href="tel:+19512399663">Call Nick</a><a href="sms:+19512399663?&body=Hi%20Nick%2C%20I%20need%20mobile%20mechanic%20service.%20Vehicle%3A%20%5Byear%20make%20model%5D.%20Issue%3A%20%5Bdescribe%5D.%20City%3A%20%5Bcity%5D.">Text Nick</a></div></div>
 <script>
+  // ===== Photo marquee data =====
+  // To add real photos: put files in the "images" folder and list them here.
+  // src  - path to the photo file (leave the object out of the "src" key, or set src:null, to keep a placeholder tile)
+  // alt  - short description for accessibility / SEO
+  window.techNickGalleryPhotos = [
+    {src:'images/image-1.jpg', alt:'Brake pad & rotor replacement — Murrieta, CA'},
+    {src:'images/image-2.jpg', alt:'No-start diagnostic — Temecula, CA'},
+    {src:'images/image-3.jpg', alt:'Suspension repair — Menifee, CA'},
+    {src:'images/image-4.jpg', alt:'Full synthetic oil service — Wildomar, CA'},
+    {src:'images/image-5.jpg', alt:'Cooling system repair — Lake Elsinore, CA'},
+    {src:'images/image-6.jpg', alt:'Battery & alternator replacement — Winchester, CA'},
+    {src:'images/image-7.jpg', alt:'Check engine light diagnostic — Murrieta, CA'},
+    {src:'images/image-8.jpg', alt:'Starter replacement — Temecula, CA'},
+    {src:'images/image-9.jpg', alt:'Brake fluid service — Menifee, CA'},
+    {src:'images/image-10.jpg', alt:'Water pump repair — Wildomar, CA'},
+    {src:'images/image-11.jpg', alt:'Suspension noise diagnosis — Lake Elsinore, CA'},
+    {src:'images/image-12.jpg', alt:'Mobile tune-up — Winchester, CA'},
+    {src:'images/image-13.jpg', alt:'Electrical wiring repair — Murrieta, CA'},
+    {src:'images/image-14.jpg', alt:'Radiator replacement — Temecula, CA'},
+    {src:'images/image-15.jpg', alt:'Control arm replacement — Menifee, CA'},
+    {src:'images/image-16.jpg', alt:'Thermostat replacement — Wildomar, CA'},
+    {src:'images/image-17.jpg', alt:'Alternator diagnostic — Lake Elsinore, CA'},
+    {src:'images/image-18.jpg', alt:'Shocks & struts replacement — Winchester, CA'},
+    {src:'images/image-19.jpg', alt:'Oil filter & fluid check — Murrieta, CA'},
+    {src:'images/image-20.jpg', alt:'Sway bar link repair — Temecula, CA'},
+    {src:'images/image-21.jpg', alt:'Sensor & connector repair — Menifee, CA'},
+    {src:'images/image-22.jpg', alt:'A/C electrical check — Wildomar, CA'},
+    {src:'images/image-23.jpg', alt:'Hub & bearing replacement — Lake Elsinore, CA'},
+    {src:'images/image-24.jpg', alt:'Fan & cooling repair — Winchester, CA'},
+    {src:'images/image-25.jpg', alt:'Tie rod replacement — Murrieta, CA'},
+    {src:'images/image-26.jpg', alt:'Misfire diagnostic — Temecula, CA'},
+    {src:'images/image-27.jpg', alt:'Spark plug replacement — Menifee, CA'},
+    {src:'images/image-28.jpg', alt:'Fuse & relay troubleshooting — Wildomar, CA'},
+    {src:'images/image-29.jpg', alt:'Brake caliper service — Lake Elsinore, CA'},
+    {src:'images/image-30.jpg', alt:'Belt replacement — Winchester, CA'},
+    {src:'images/image-31.jpg', alt:'Mobile inspection — Murrieta, CA'}
+  ];
+
+  (function(){
+    var track = document.getElementById('marqueeTrack');
+    if(!track) return;
+    var photos = window.techNickGalleryPhotos || [];
+    if(!photos.length) return;
+
+    function buildSlide(p){
+      var el = document.createElement('div');
+      el.className = 'marquee-slide' + (p.src ? '' : ' is-placeholder');
+      if(p.src){
+        var img = document.createElement('img');
+        img.src = p.src;
+        img.alt = p.alt || 'Tech Nick Mobile Auto Service — recent work';
+        img.loading = 'lazy';
+        el.appendChild(img);
+      } else {
+        el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5L3 19"/></svg><span>' + (p.alt || 'Photo') + '</span>';
+      }
+      return el;
+    }
+
+    // Render the set twice back to back so the -50% animation loops seamlessly
+    photos.concat(photos).forEach(function(p){
+      track.appendChild(buildSlide(p));
+    });
+  })();
+
   document.getElementById('leadForm').addEventListener('submit', function(event){
     event.preventDefault();
     const data = new FormData(event.currentTarget);
